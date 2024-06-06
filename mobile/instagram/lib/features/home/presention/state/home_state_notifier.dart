@@ -9,15 +9,15 @@ class HomeStateNotifier extends StateNotifier<HomeState> {
      this.getListFoodUseCase,
   }) : super(HomeState(listFoodEntity: [], isLoading: false));
 
-  Future<void> loadTodos() async {
+  Future< List<FoodEntity>?> loadTodos() async {
     state = state.copyWith(isLoading: true);
     try {
       List<FoodEntity>? todos = await getListFoodUseCase?.getListFood();
-
       state = state.copyWith(listFoodEntity: [], isLoading: false);
-      print("${state.listFoodEntity}");
+     return todos;
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
+    return [];
   }
 }
